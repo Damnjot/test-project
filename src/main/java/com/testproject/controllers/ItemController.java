@@ -1,24 +1,45 @@
 package com.testproject.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.testproject.domain.Item;
+import com.testproject.services.ItemService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/items")
 public class ItemController {
 
-    @GetMapping
-    public String get(){
-        return "item";
+    private ItemService itemService;
+
+    @Autowired
+    public ItemController(ItemService itemService){
+        this.itemService=itemService;
     }
 
+    @GetMapping ("{id}")
+    public ResponseEntity getItem(@PathVariable long id) {
+        try {
+            return ResponseEntity.status(200).body(itemService.getItem(id));
+        }catch (Exception e){
+
+            return ResponseEntity.status(404).body(Map.of("message", e.getMessage()));
+        }
+    }
     @PostMapping
-    public String post(){
-        return "itempost";
+    public ResponseEntity post(@RequestBody Item item){
+        try {
+            itemService.addItem(item);
+            return ResponseEntity
+                    .status(201)
+                    .body(Map.of(
+                    "message", "Item created successfully",
+                    "path", "/api/items/" + item.getId()));
+        }catch (Exception e){
+            return ResponseEntity.status(404).body(Map.of("message", e.getMessage()));
+        }
     }
     @PutMapping
     public String put(){

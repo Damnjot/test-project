@@ -1,17 +1,27 @@
-group 'com.kuba-son'
-version '1.0-SNAPSHOT'
+plugins {
+    id 'org.springframework.boot' version '2.0.0.RELEASE'
+}
+
+group 'com.ip'
+version '1.0'
 
 apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
 
-sourceCompatibility = 10
 
 repositories {
     mavenCentral()
 }
 
+
 dependencies {
-    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.0.0.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.0.0.RELEASE'
-    compile group: 'org.springframework.boot', name: 'spring-boot-autoconfigure', version: '2.0.0.RELEASE'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: '2.0.0.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.0.0.RELEASE'
+
+    compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0'
+    compile group: 'com.h2database', name: 'h2', version: '1.4.197'
+    compile group: 'com.google.guava', name: 'guava', version: '24.1-jre'
+
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.0.0.RELEASE'
 }
